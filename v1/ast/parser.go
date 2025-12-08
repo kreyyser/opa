@@ -160,12 +160,12 @@ type parsedTermCache struct {
 func (c parsedTermCache) String() string {
 	s := sbPool.Get()
 	defer sbPool.Put(s)
-	s.WriteRune('{')
+	s.WriteByte('{')
 	var e *parsedTermCacheItem
 	for e = c.m; e != nil; e = e.next {
 		s.WriteString(e.String())
 	}
-	s.WriteRune('}')
+	s.WriteByte('}')
 	return s.String()
 }
 

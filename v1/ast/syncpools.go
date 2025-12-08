@@ -63,26 +63,6 @@ var (
 		},
 	}
 
-	// Pool for map[Var]*usedRef used in getGlobals
-	varUsedRefMapPool = &varUsedRefMapPoolType{
-		pool: sync.Pool{
-			New: func() any {
-				m := make(map[Var]*usedRef, 32)
-				return &m
-			},
-		},
-	}
-
-	// Pool for unsafeVars (map[*Expr]VarSet) used in reorderBodyForSafety
-	unsafeVarsMapPool = &unsafeVarsMapPoolType{
-		pool: sync.Pool{
-			New: func() any {
-				m := make(unsafeVars, 16)
-				return &m
-			},
-		},
-	}
-
 	// Pool for map[string]any used in MarshalJSON methods (Annotations, AnnotationsRef, etc.)
 	mapStringAnyPool = &mapStringAnyPoolType{
 		pool: sync.Pool{
@@ -100,8 +80,6 @@ type (
 	mapStringAnySlicePoolType struct{ pool sync.Pool }
 	stringStructMapPoolType   struct{ pool sync.Pool }
 	ruleSetMapPoolType        struct{ pool sync.Pool }
-	varUsedRefMapPoolType     struct{ pool sync.Pool }
-	unsafeVarsMapPoolType     struct{ pool sync.Pool }
 	mapStringAnyPoolType      struct{ pool sync.Pool }
 )
 
@@ -177,30 +155,6 @@ func (p *ruleSetMapPoolType) Get() *map[*Rule]struct{} {
 }
 
 func (p *ruleSetMapPoolType) Put(m *map[*Rule]struct{}) {
-	if m != nil {
-		p.pool.Put(m)
-	}
-}
-
-func (p *varUsedRefMapPoolType) Get() *map[Var]*usedRef {
-	m := p.pool.Get().(*map[Var]*usedRef)
-	clear(*m)
-	return m
-}
-
-func (p *varUsedRefMapPoolType) Put(m *map[Var]*usedRef) {
-	if m != nil {
-		p.pool.Put(m)
-	}
-}
-
-func (p *unsafeVarsMapPoolType) Get() *unsafeVars {
-	m := p.pool.Get().(*unsafeVars)
-	clear(*m)
-	return m
-}
-
-func (p *unsafeVarsMapPoolType) Put(m *unsafeVars) {
 	if m != nil {
 		p.pool.Put(m)
 	}

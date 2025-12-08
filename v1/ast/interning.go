@@ -839,7 +839,6 @@ var stringToIntNumberTermMap = map[string]*Term{
 	"512": intNumberTerms[512],
 }
 
-
 var intNumberValues = [...]Value{
 	Number("0"),
 	Number("1"),

@@ -434,7 +434,7 @@ func (n *typeTreeNode) String() string {
 		b.WriteString("\n\t+ ")
 		s := child.String()
 		// Optimize: manual replacement is faster than strings.ReplaceAll for small strings
-		for i := 0; i < len(s); i++ {
+		for i := range len(s) {
 			if s[i] == '\n' {
 				b.WriteString("\n\t")
 			} else {

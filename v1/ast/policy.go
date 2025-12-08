@@ -1012,9 +1012,9 @@ func (head *Head) stringWithOpts(opts toStringOpts) string {
 	case len(head.Reference) == 1 && head.Key != nil:
 		switch opts.RegoVersion() {
 		case RegoV0:
-			buf.WriteRune('[')
+			buf.WriteByte('[')
 			buf.WriteString(head.Key.String())
-			buf.WriteRune(']')
+			buf.WriteByte(']')
 		default:
 			containsAdded = true
 			buf.WriteString(" contains ")
